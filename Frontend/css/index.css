@@ -1,0 +1,21 @@
+.contenedor {
+    position: relative;
+}
+
+.hijo {
+    width: 100%;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    margin: -25px 0 0 -25px; /* aplicar a top y al margen izquierdo un valor negativo para completar el centrado del elemento hijo */
+}
+
+.oculto {
+    display: none;
+}
+
+.row-s{
+    padding: 80px;
+    height: 50vh;
+    overflow-y: scroll;
+}
