@@ -1,22 +1,19 @@
 import asyncio
 import websockets
 
-def metodo_cesar(texto, clave = 3):
+def metodo_cesar(texto, desplazamiento=3):
+    alfabeto = 'abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
     resultado = ""
 
-    for caracter in texto:
-        if caracter.isalpha():
-            mayuscula = caracter.isupper()
-            caracter = caracter.lower()
-            codigo = ord(caracter)
-            codigo_cifrado = (codigo - ord('a') + clave) % 26 + ord('a')
-            caracter_cifrado = chr(codigo_cifrado)
-            resultado += caracter_cifrado.upper() if mayuscula else caracter_cifrado
+    for char in texto:
+        if char in alfabeto:
+            indice = alfabeto.index(char)
+            nuevo_indice = (indice + desplazamiento) % len(alfabeto)
+            resultado += alfabeto[nuevo_indice]
         else:
-            resultado += caracter
+            resultado += char
 
     return resultado
-
 
 async def chat_handler(websocket, path):
     clients.add(websocket)

@@ -1,4 +1,4 @@
-let host = 'ws://localhost:5555'; // URL del socket
+let host = 'ws://192.168.1.65:5555'; // URL del socket
 let socket = new WebSocket(host); // Nos conectamos al socket
 console.log(socket);
 socket.onopen = function (e) {
@@ -14,7 +14,7 @@ socket.onopen = function (e) {
 }
 
 socket.onmessage = function (event) {
-    messageCuerpo(event.data, "profile-picture-5.jpg")
+    messageCuerpo(caesarDecrip(event.data, 3), "profile-picture-5.jpg")
 }
 
 socket.onclose = function (event) {
@@ -41,27 +41,27 @@ socket.onerror = function (event) {
     );
 }
 
-function caesar(txt, desp) {
-    var respuesta = "";
-    for (var i = 0; i < txt.length; i++) {
-        var caracter = txt[i];
-        if (/[a-zA-Z]/.test(caracter)) {
-        var codigo = txt.charCodeAt(i) + desp;
-        if (/[a-z]/.test(caracter) && codigo > 122) {
-            codigo -= 26;
-        } else if (/[A-Z]/.test(caracter) && codigo > 90) {
-            codigo -= 26;
-        } else if (codigo < 0) {
-            codigo += 26;
-    }      
-        caracter = String.fromCharCode(codigo);
+function caesarDecrip(texto, desplazamiento) {
+    const alfabeto = 'abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ';
+    let resultado = "";
+
+    for (let i = 0; i < texto.length; i++) {
+        let char = texto[i];
+        let indice = alfabeto.indexOf(char);
+
+        if (indice !== -1) {
+            let nuevoIndice = (indice - desplazamiento) % alfabeto.length;
+            resultado += alfabeto.charAt(nuevoIndice);
+        } else {
+            resultado += char;
+        }
     }
-        respuesta += caracter;
-    }
-    return respuesta;
+
+    return resultado;
 }
 
-function sendMessage() {
+function sendMessage(event) {
+    event.preventDefault()
     let messageInput = document.getElementById('message_input');
     let message = messageInput.value;
     if (message.trim() !== '') {
@@ -92,4 +92,6 @@ function messageCuerpo (message, img) {
             </ol>
         `;
     document.getElementById("miLista").insertAdjacentHTML('beforeend', codigoHTML);
+    var objDiv = document.getElementById("scroll");
+    objDiv.scrollTop = objDiv.scrollHeight;
 }

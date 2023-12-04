@@ -3,11 +3,10 @@
 }
 
 .hijo {
-    width: 100%;
     position: absolute;
-    top: 20%;
-    left: 30%;
-    margin: -25px 0 0 -25px; /* aplicar a top y al margen izquierdo un valor negativo para completar el centrado del elemento hijo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* aplicar a top y al margen izquierdo un valor negativo para completar el centrado del elemento hijo */
 }
 
 .oculto {
@@ -15,7 +14,17 @@
 }
 
 .row-s{
-    padding: 80px;
-    height: 50vh;
-    overflow-y: scroll;
+    padding: 30px;
+    height: 60vh;
+    width: 400px;
+    overflow-y: auto;
+    white-space: nowrap;
 }
+
+.barraMessage{
+    position: relative;
+    width: 95%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+}
+::-webkit-scrollbar {display: none;}
