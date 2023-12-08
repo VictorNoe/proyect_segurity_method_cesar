@@ -2,6 +2,7 @@ import asyncio
 import websockets
 
 def metodo_cesar(texto, desplazamiento=3):
+    print(f'Texto sin sifrar: {texto}')
     alfabeto = 'abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
     resultado = ""
 
@@ -12,7 +13,7 @@ def metodo_cesar(texto, desplazamiento=3):
             resultado += alfabeto[nuevo_indice]
         else:
             resultado += char
-
+    print(f'Texto sin sifrar: {resultado}')
     return resultado
 
 async def chat_handler(websocket, path):

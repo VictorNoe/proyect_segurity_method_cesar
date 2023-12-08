@@ -1,4 +1,11 @@
-let host = 'ws://192.168.1.65:5555'; // URL del socket
+let date = new Date();
+const [hour, minutes, seconds] = [
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+];
+
+let host = 'ws://localhost:5555'; // URL del socket
 let socket = new WebSocket(host); // Nos conectamos al socket
 console.log(socket);
 socket.onopen = function (e) {
@@ -14,7 +21,8 @@ socket.onopen = function (e) {
 }
 
 socket.onmessage = function (event) {
-    messageCuerpo(caesarDecrip(event.data, 3), "profile-picture-5.jpg")
+    let incrpter_message = event.data;
+    messageCuerpo(caesarDecrip(event.data, 3), incrpter_message, "profile-picture-5.jpg");
 }
 
 socket.onclose = function (event) {
@@ -44,6 +52,7 @@ socket.onerror = function (event) {
 function caesarDecrip(texto, desplazamiento) {
     const alfabeto = 'abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ';
     let resultado = "";
+    console.log(texto);
 
     for (let i = 0; i < texto.length; i++) {
         let char = texto[i];
@@ -56,7 +65,7 @@ function caesarDecrip(texto, desplazamiento) {
             resultado += char;
         }
     }
-
+    console.log(resultado);
     return resultado;
 }
 
@@ -65,33 +74,55 @@ function sendMessage(event) {
     let messageInput = document.getElementById('message_input');
     let message = messageInput.value;
     if (message.trim() !== '') {
-        messageCuerpo(message, "profile-picture-3.jpg");
+        messageCuerpoSend(message,"profile-picture-3.jpg");
         socket.send(message);
         messageInput.value = '';
     }
+}
+
+function messageCuerpo (message,incrpter_message, img) {
+    var codigoHTML = `
+                <li class="mb-10 ms-6">            
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                        <img class="rounded-full shadow-lg" src="img/${img}" alt="Bonnie image"/>
+                    </span>
+                    <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600" style="width: auto;">
+                        <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">${hour}:${minutes}</time>
+                        <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
+                            <p>Mensaje Incrptado: ${incrpter_message}</p>
+                            <p>Mensaje descriptado: ${message}</p>
+                            <p>Mensaje clave: 3 </p>
+                        </div>
+                    </div>
+                </li>
+        `;
+    document.getElementById("miLista").insertAdjacentHTML('beforeend', codigoHTML);
+    var objDiv = document.getElementById("scroll");
+    objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+function messageCuerpoSend (message, img) {
+    var codigoHTML = `
+                <li class="mb-10 ms-6">            
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                        <img class="rounded-full shadow-lg" src="img/${img}" alt="Bonnie image"/>
+                    </span>
+                    <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600" style="width: auto;">
+                        <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">${hour}:${minutes}</time>
+                        <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
+                            <p>Mensaje descriptado: ${message}</p>
+                            <p>Mensaje clave: 3</p>
+                        </div>
+                    </div>
+                </li>
+        `;
+    document.getElementById("miLista").insertAdjacentHTML('beforeend', codigoHTML);
+    var objDiv = document.getElementById("scroll");
+    objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
 } else {
     document.documentElement.classList.remove('dark')
-}
-
-function messageCuerpo (message, img) {
-    var codigoHTML = `
-            <ol class="relative border-s border-gray-200 dark:border-gray-700">
-                <li class="mb-10 ms-6">            
-                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                        <img class="rounded-full shadow-lg" src="img/${img}" alt="Bonnie image"/>
-                    </span>
-                    <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-                        <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">just now</time>
-                        <div class="text-sm font-normal text-gray-500 dark:text-gray-300">${message}</div>
-                    </div>
-                </li>
-            </ol>
-        `;
-    document.getElementById("miLista").insertAdjacentHTML('beforeend', codigoHTML);
-    var objDiv = document.getElementById("scroll");
-    objDiv.scrollTop = objDiv.scrollHeight;
 }
