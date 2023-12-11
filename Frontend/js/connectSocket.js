@@ -5,9 +5,10 @@ const [hour, minutes, seconds] = [
     date.getSeconds(),
 ];
 
-let host = 'ws://localhost:5555'; // URL del socket
+//Crear una nueva conexion a nuestro servidor
+let host = 'ws://192.168.107.28:5555'; // URL del socket
 let socket = new WebSocket(host); // Nos conectamos al socket
-console.log(socket);
+
 socket.onopen = function (e) {
     swal(
         {
@@ -49,6 +50,7 @@ socket.onerror = function (event) {
     );
 }
 
+//Función de incriptacion por metodo cesar
 function caesarDecrip(texto, desplazamiento) {
     const alfabeto = 'abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ';
     let resultado = "";
@@ -69,6 +71,7 @@ function caesarDecrip(texto, desplazamiento) {
     return resultado;
 }
 
+//Funcion que envia mensaje al servidor
 function sendMessage(event) {
     event.preventDefault()
     let messageInput = document.getElementById('message_input');
@@ -80,6 +83,7 @@ function sendMessage(event) {
     }
 }
 
+//Función que imprime el cuerpo del html
 function messageCuerpo (message,incrpter_message, img) {
     var codigoHTML = `
                 <li class="mb-10 ms-6">            
@@ -89,7 +93,7 @@ function messageCuerpo (message,incrpter_message, img) {
                     <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600" style="width: auto;">
                         <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">${hour}:${minutes}</time>
                         <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
-                            <p>Mensaje Incrptado: ${incrpter_message}</p>
+                            <p>Mensaje encriptado: ${incrpter_message}</p>
                             <p>Mensaje descriptado: ${message}</p>
                             <p>Mensaje clave: 3 </p>
                         </div>
@@ -101,6 +105,7 @@ function messageCuerpo (message,incrpter_message, img) {
     objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+//Función que imprime el cuerpo del html
 function messageCuerpoSend (message, img) {
     var codigoHTML = `
                 <li class="mb-10 ms-6">            
@@ -121,6 +126,7 @@ function messageCuerpoSend (message, img) {
     objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+//Modo oscuro
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
 } else {
