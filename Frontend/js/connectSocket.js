@@ -93,9 +93,9 @@ function messageCuerpo (message,incrpter_message, img) {
                     <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600" style="width: auto;">
                         <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">${hour}:${minutes}</time>
                         <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
+                            <p>Clave: 3 </p>
                             <p>Mensaje encriptado: ${incrpter_message}</p>
                             <p>Mensaje descriptado: ${message}</p>
-                            <p>Mensaje clave: 3 </p>
                         </div>
                     </div>
                 </li>
